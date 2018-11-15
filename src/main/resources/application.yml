@@ -1,0 +1,17 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src
+
+line:
+  bot:
+    channel-token: 'lYWqnigWOQQjLZhT2L/UttfOElauzX6mzoeNtbwtSnkYMpHMwX4sVDTsvqzEpxblhDPzqw93+yiIR2xsyfyJ+yuFeld0BPy/oWa0csdewubjulicfLD499XWT2mU6PTjQOSDS1T/R8ADqsm2p1v9/wdB04t89/1O/w1cDnyilFU='
+    channel-secret: 'e3fcc8134742fa655a9d3a20bd44eba7'
+    handler:
+      path: /callback
+
+oxford:
+  base-url: 'https://od-api.oxforddictionaries.com/api/v1'
+  app-id: '22cca620'
+  app-key: 'dc6fb018151998abd853358bfc6f84e6'
