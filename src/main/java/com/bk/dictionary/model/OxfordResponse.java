@@ -3,12 +3,12 @@ package com.bk.dictionary.model;
 import lombok.Data;
 
 @Data
-public class Word {
+public class OxfordResponse {
 
     private Boolean status;
-    private String mean;
+    private String text;
 
-    public Word(Boolean status) {
+    public OxfordResponse(Boolean status) {
         this.status = status;
     }
 }

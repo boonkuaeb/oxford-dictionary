@@ -1,9 +1,8 @@
 package com.bk.dictionary.handler;
 
 
-import com.bk.dictionary.model.Synonyms;
-import com.bk.dictionary.model.Word;
-import com.bk.dictionary.services.WordService;
+import com.bk.dictionary.model.OxfordResponse;
+import com.bk.dictionary.services.OxfordService;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
@@ -25,11 +24,11 @@ public class LineBotHandler {
     @Value("${line.bot.channel-token}")
     private String chanelToken;
 
-    private WordService wordService;
+    private OxfordService oxfordService;
 
     @Autowired
-    public LineBotHandler(WordService phaseService) {
-        this.wordService = phaseService;
+    public LineBotHandler(OxfordService oxfordService) {
+        this.oxfordService = oxfordService;
     }
 
 
@@ -38,12 +37,16 @@ public class LineBotHandler {
         final String replyToken = event.getReplyToken();
         final String userId = event.getSource().getUserId();
         final String originalMessageText = event.getMessage().getText();
-        Word meaning = wordService.getMeaning(originalMessageText);
-        replyTranslate(replyToken, meaning.getMean());
+        OxfordResponse wordResponse = oxfordService.getMeaning(originalMessageText);
+        if (wordResponse.getStatus()) {
+            replyTranslate(replyToken, wordResponse.getText());
+        } else {
+            replyTranslate(replyToken, "Cannot find the meaning for this time.");
+        }
 
-        Synonyms synonyms = wordService.getSynonyms(originalMessageText);
+        OxfordResponse synonyms = oxfordService.getSynonyms(originalMessageText);
         if (synonyms.getStatus()) {
-            pushSynonyms(userId, synonyms.getTextSynonyms());
+            pushSynonyms(userId, synonyms.getText());
         }
 
     }
