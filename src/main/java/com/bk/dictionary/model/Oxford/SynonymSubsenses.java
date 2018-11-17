@@ -5,6 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SynonymSense {
-    private List<SynonymSubsenses> subsenses;
+public class SynonymSubsenses {
+    private List<Synonym> synonyms;
+
 }

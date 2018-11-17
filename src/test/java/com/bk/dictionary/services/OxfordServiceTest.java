@@ -168,28 +168,32 @@ public class OxfordServiceTest {
     public void getSynonyms_Success_WhenApiReturn() {
         // Given
         OxfordResponse oxfordResponseMock = new OxfordResponse(true);
-        oxfordResponseMock.setText("Information");
+        oxfordResponseMock.setText("line");
 
         Synonym synonym1 = new Synonym();
-        synonym1.setText("info");
+        synonym1.setText("underline");
 
         Synonym synonym2 = new Synonym();
-        synonym2.setText("Details");
+        synonym2.setText("underscore");
 
         Synonym synonym3 = new Synonym();
-        synonym3.setText("Particulars");
+        synonym3.setText("stroke");
 
         Synonym synonym4 = new Synonym();
-        synonym4.setText("Facts");
+        synonym4.setText("slash");
 
         Synonym synonym5 = new Synonym();
-        synonym5.setText("Figures");
+        synonym5.setText("virgule");
 
 
-        List<Synonym> definitionList = Arrays.asList(synonym1, synonym2, synonym3, synonym4, synonym5);
+        List<Synonym> synonymList = Arrays.asList(synonym1, synonym2, synonym3, synonym4, synonym5);
+
+        SynonymSubsenses subsenses = new SynonymSubsenses();
+        subsenses.setSynonyms(synonymList);
+        List<SynonymSubsenses> subsensesList = Arrays.asList(subsenses,subsenses);
 
         SynonymSense synonymSense = new SynonymSense();
-        synonymSense.setSynonyms(definitionList);
+        synonymSense.setSubsenses(subsensesList);
         List<SynonymSense> senseList = Arrays.asList(synonymSense, synonymSense);
 
         SynonymEntry entry = new SynonymEntry();
@@ -219,7 +223,7 @@ public class OxfordServiceTest {
 
 
         // Then
-        OxfordResponse actual = oxfordService.getSynonyms("information");
+        OxfordResponse actual = oxfordService.getSynonyms("line");
         assertEquals(oxfordResponseMock.getStatus(), actual.getStatus());
 
         // Verify

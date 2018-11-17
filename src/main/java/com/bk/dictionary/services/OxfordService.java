@@ -80,17 +80,19 @@ public class OxfordService {
             SynonymLexicalEntry synonymLexicalEntry = synonymResult.getLexicalEntries().stream().findFirst().orElse(null);
             SynonymEntry entry = synonymLexicalEntry.getEntries().stream().findFirst().orElse(null);
             SynonymSense sense = entry.getSenses().stream().findFirst().orElse(null);
-            String synonyms = sense.getSynonyms().stream()
+            SynonymSubsenses subsenses = sense.getSubsenses().stream().findFirst().orElse(null);
+            String synonyms = subsenses.getSynonyms().stream()
                     .limit(5)
                     .map(n -> strFirstToUpper(n.getText()))
                     .collect(Collectors.joining(", "));
 
-            System.out.println("synonyms = " + synonyms);
+            int lastDelimeter = synonyms.lastIndexOf(", ");
+            String newSynonyms = synonyms.substring(0, lastDelimeter) + "and " + synonyms.substring((lastDelimeter + 1));
 
-            if (!synonyms.isEmpty() || synonyms != null) {
-                synonymsResponse.setStatus(true);
-                synonymsResponse.setText("Similar Words :\n" + strFirstToUpper(synonyms) + ".");
-            }
+            System.out.println("synonyms = " + synonyms);
+            synonymsResponse.setStatus(true);
+            synonymsResponse.setText("Similar Words :\n" + strFirstToUpper(synonyms) + ".");
+
 
             return synonymsResponse;
 
