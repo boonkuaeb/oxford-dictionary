@@ -40,14 +40,14 @@ public class OxfordServiceTest {
     }
 
     @Test
-    public void getMeaningWillFailWhenInputBlank() {
+    public void getMeaning_Fail_When_InputBlank() {
 
         OxfordResponse actual = oxfordService.getMeaning("");
         assertEquals(false, actual.getStatus());
     }
 
     @Test
-    public void getMeaningWillFailWhenApiReturn404() {
+    public void getMeaning_Fail_When_ApiReturn404() {
         // Given
         OxfordResponse oxfordResponseMock = new OxfordResponse(false);
 
@@ -76,7 +76,7 @@ public class OxfordServiceTest {
 
 
     @Test
-    public void getMeaningWillSuccessWhenApiReturn() {
+    public void getMeaning_Success_When_ApiReturn() {
         // Given
         OxfordResponse oxfordResponseMock = new OxfordResponse(true);
         oxfordResponseMock.setText("Information");
@@ -129,7 +129,7 @@ public class OxfordServiceTest {
 
 
     @Test
-    public void getSynonymsWillWillFailWhenInputBlank() {
+    public void getSynonyms_Fail_When_InputBlank() {
 
         OxfordResponse actual = oxfordService.getSynonyms("");
         assertEquals(false, actual.getStatus());
@@ -137,7 +137,7 @@ public class OxfordServiceTest {
 
 
     @Test
-    public void getSynonymsWillFailWhenApiReturn404() {
+    public void getSynonyms_Fail_When_ApiReturn404() {
         // Given
         OxfordResponse oxfordResponseMock = new OxfordResponse(false);
 
@@ -167,7 +167,7 @@ public class OxfordServiceTest {
 
 
     @Test
-    public void getSynonymsWillSuccessWhenApiReturn() {
+    public void getSynonyms_Success_WhenApiReturn() {
         // Given
         OxfordResponse oxfordResponseMock = new OxfordResponse(true);
         oxfordResponseMock.setText("Information");
