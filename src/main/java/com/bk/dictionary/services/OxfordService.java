@@ -87,11 +87,11 @@ public class OxfordService {
                     .collect(Collectors.joining(", "));
 
             int lastDelimeter = synonyms.lastIndexOf(", ");
-            String newSynonyms = synonyms.substring(0, lastDelimeter) + "and " + synonyms.substring((lastDelimeter + 1));
+            String newSynonyms = synonyms.substring(0, lastDelimeter) + " and " + synonyms.substring((lastDelimeter + 1));
 
-            System.out.println("synonyms = " + synonyms);
+            System.out.println("newSynonyms = " + newSynonyms);
             synonymsResponse.setStatus(true);
-            synonymsResponse.setText("Similar Words :\n" + strFirstToUpper(synonyms) + ".");
+            synonymsResponse.setText("Similar Words :\n" + strFirstToUpper(newSynonyms) + ".");
 
 
             return synonymsResponse;
