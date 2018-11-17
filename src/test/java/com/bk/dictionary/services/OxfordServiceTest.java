@@ -164,8 +164,6 @@ public class OxfordServiceTest {
     }
 
 
-
-
     @Test
     public void getSynonyms_Success_WhenApiReturn() {
         // Given
@@ -188,7 +186,7 @@ public class OxfordServiceTest {
         synonym5.setText("Figures");
 
 
-        List<Synonym> definitionList = Arrays.asList(synonym1,synonym2,synonym3,synonym4,synonym5);
+        List<Synonym> definitionList = Arrays.asList(synonym1, synonym2, synonym3, synonym4, synonym5);
 
         SynonymSense synonymSense = new SynonymSense();
         synonymSense.setSynonyms(definitionList);
