@@ -67,21 +67,50 @@ mvn clean test
       ![Chat](docs/test-chat.png "Test chat" )
 
 
-### Work with Docker file.
+### Create and Deploy the docker images.
 
-1. Create docker image
+1. Run Unit Test. Make sure all Unit Test passed properly. 
+    ```$docker
+       dfsdfdf
+    ```
+2. Create docker image
+    ```$docker
+    mvn package -DskipTests=true docker:build -Ddictionary-profile=default
+    ```
+3. Run container from docker image
+    ```docker
+     docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d dictionary-img-default
+    ```
+4. Test docker container is running
 
-**Note**: _Please make sure your Unit Test passed properly._
+    Open URL [http://localhost:8080](http://localhost:8080) and check the page is showing `Whitelabel Error Page` message. That means we can run the application from docker container.
 
-```bash
-mvn package -DskipTests=true docker:build -Ddictionary-profile=default
-```
+5. Store docker images to the Docker repository.
+    I use [https://hub.docker.com/](https://hub.docker.com/). Login to docker-hub account.
+    * Login to docker-hub account.
+        ```docker
+          docker login
+        ```
+        Input user/password of docker-hub account.
+    * Check `dictionary-default-img` created.
+      ```docker
+      docker images
+      ```
+      Find the Image Id of `dictionary-default-img`
+        
+    * Tags dictionary-default-img with the Image Id from previous step.
+        ```docker
+          docker tag dictionary-default-img_Image_Id your_docker_hub_repository_name:latest
+       ```
+    * Push image to Docker-hub
+    * Push `your_docker_hub_repository_name:latest` to Docker-Hub repository
+      ```docker
+      docker push your_docker_hub_repository_name
+      ```
+6. Deploy deploy images to any docker server.
+This command is very similar to step 3. A different is the option `-d `.
+We can use the docker repository name from docker-hub. I use the repository name that I created on `your_docker_hub_repository_name`
 
-2. Run container from docker image
 ```docker
-docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d dictionary-img-default
-
+docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d your_docker_hub_repository_name
 ```
-
-3. Open URL [http://localhost:8080](http://localhost:8080) and check the page is showing `Whitelabel Error Page` message. That means we can run the application from docker container.
-
