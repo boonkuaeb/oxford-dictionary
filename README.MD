@@ -2,7 +2,7 @@
 
 This application is a demonstration of the integrate LINE Bot and Oxford Dictionary API.
 
-      ![QRCode](docs/qr-code.png "qr code chat")
+   ![QRCode](docs/qr-code.png "qr code chat")
 
 ### Prerequisite
 
