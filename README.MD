@@ -6,7 +6,7 @@ This application is a demonstration of the integrate LINE Bot and Oxford Diction
 
 ### Prerequisite
 
-1. LINE BOT Trial account from [https://developers.line.me/en/](https://developers.line.me/en/).The parameters that we need from this step as below.
+1. LINE Message API account from [https://developers.line.me/en/](https://developers.line.me/en/).The parameters that we need from this step as below.
      * `channel-token` . A channel token value of LINE bot account.
      * `channel-secret`. A channel secret value of LINE bot account.
 2. Oxford Dictionary Account from [https://developer.oxforddictionaries.com/sign-in](https://developer.oxforddictionaries.com/sign-in). The parameters that we need are.
