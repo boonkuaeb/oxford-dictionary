@@ -108,17 +108,17 @@ mvn clean test
       For example I use `dictionary-default-image-id-xxx` as a Image Id of `dictionary-default-img`
         
     * Tags  the  `dictionary-default-image-id-xxx` Image Id from previous step.
-        * `boonkuaeb/dictionay:latest` is Docker Hub repository name and version
+        * `boonkuaeb/dictionary:latest` is Docker Hub repository name and version
 
         ```docker
-          docker tag dictionary-default-image-id-xxx boonkuaeb/dictionay:latest
+          docker tag dictionary-default-image-id-xxx boonkuaeb/dictionary:latest
        ```
         
-    * Push `boonkuaeb/dictionay:latest` image to Docker-Hub repository
+    * Push `boonkuaeb/dictionary:latest` image to Docker-Hub repository
       ```docker
-      docker push boonkuaeb/dictionay
+      docker push boonkuaeb/dictionary
       ```
-      Open [https://hub.docker.com/](https://hub.docker.com/) and find the boonkuaeb/dictionay that we just pushed.
+      Open [https://hub.docker.com/](https://hub.docker.com/) and find the boonkuaeb/dictionary that just pushed.
       
 ### Deploy the Docker Images.      
 In this case, I plan to test deployment dictionary application on my local environment. So, I will clean up all container and images as a few dockers command below.
@@ -140,13 +140,13 @@ docker rmi dictionary-default-img
 1. Pull and deploy docker image :
 
     The deployment command is very similar to step 3 of `Create Docker Images` step. The different things are. 
-    * `-d ` is a image name : I changed to Docker Hub repository  name as a `boonkuaeb/dictionay`
+    * `-d ` is a image name : I changed to Docker Hub repository  name as a `boonkuaeb/dictionary`
     * `--name` is a container name: I change to `dictionary-prod`
     * `DEVTOOLS_IS_DEV_MODE=false` 
     
     The command to deploy as a below.
     ```docker
-    docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=true -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d boonkuaeb/dictionay
+    docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=true -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d boonkuaeb/dictionary
     ```
 2. Check the container is running :
     ```docker
