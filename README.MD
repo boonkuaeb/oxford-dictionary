@@ -72,7 +72,7 @@ mvn clean test
 
 1. Make sure all Unit Test passed properly. 
     ```$docker
-        mvn clean test
+    mvn clean test
     ```
 2. Create docker image
     ```$docker
@@ -98,13 +98,13 @@ mvn clean test
     I use [https://hub.docker.com/](https://hub.docker.com/). 
     * Open the terminal and login to docker-hub account as this step.
         ```docker
-          docker login
+        docker login
         ```
         Input user/password of docker-hub account.
     * Check `dictionary-default-img` created.
-      ```docker
-      docker images
-      ```
+        ```docker
+        docker images
+        ```
       Find the Image Id of `dictionary-default-img` image.
       For example I use `dictionary-default-image-id-xxx` as a Image Id of `dictionary-default-img`
         
@@ -113,7 +113,7 @@ mvn clean test
 
         ```docker
           docker tag dictionary-default-image-id-xxx boonkuaeb/dictionary:latest
-       ```
+        ```
         
     * Push `boonkuaeb/dictionary:latest` image to Docker-Hub repository
       ```docker
