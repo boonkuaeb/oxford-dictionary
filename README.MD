@@ -81,6 +81,7 @@ mvn clean test
     mvn package -DskipTests=true docker:build -Ddictionary-profile=default
     ```
     Check `dictionary-default-img` created.
+    Run command:
       ```docker
       docker images
       ```
