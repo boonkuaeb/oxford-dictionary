@@ -68,6 +68,7 @@ public class OxfordService {
             } catch (Exception e) {
                 System.out.println("e.OxfordResponse() = " + e.getMessage());
                 meaningResponse.setText("Cannot find the meaning for this time.");
+                pushMessageService.pushMessage(userId, meaningResponse.getText());
             }
         }
     }
