@@ -108,10 +108,11 @@ mvn clean test
       For example I use `dictionary-default-image-id-xxx` as a Image Id of `dictionary-default-img`
         
     * Tags  the  `dictionary-default-image-id-xxx` Image Id from previous step.
+        * `boonkuaeb/dictionay:latest` is Docker Hub repository name and version
+
         ```docker
           docker tag dictionary-default-image-id-xxx boonkuaeb/dictionay:latest
        ```
-        * `boonkuaeb/dictionay:latest` is Docker Hub repository name and version
         
     * Push `boonkuaeb/dictionay:latest` image to Docker-Hub repository
       ```docker
