@@ -70,6 +70,9 @@ mvn clean test
 ### Work with Docker file.
 
 1. Create docker image
+
+**Note**: _Please make sure your Unit Test passed properly._
+
 ```bash
 mvn package -DskipTests=true docker:build -Ddictionary-profile=default
 ```
