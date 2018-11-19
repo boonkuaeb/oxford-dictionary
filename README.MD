@@ -58,9 +58,10 @@ mvn clean test
     * Find the QR code image
     * Open your LINE mobile application. 
     * Add new friend via scan QR code.
-    * Check a Friends list on LINE application. You will see new friend name `Dictionaty BOT`
+    * Check a Friends list on LINE application. You will see new friend name `Dictionary BOT`
     
-4. Test
+4. Test Chanel
+    * Chat to `Dictionary BOT`
     * Input message text : `LINE`
     * Result: 
     
