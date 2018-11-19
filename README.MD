@@ -116,7 +116,7 @@ mvn clean test
         
         Run Command:
         ```docker
-          docker tag dictionary-default-image-id-xxx boonkuaeb/dictionary:latest
+        docker tag dictionary-default-image-id-xxx boonkuaeb/dictionary:latest
         ```
     
     * Push `boonkuaeb/dictionary:latest` image to Docker-Hub repository
