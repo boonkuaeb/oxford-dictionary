@@ -1,6 +1,7 @@
 ## Sample Dictionary Application
 
-This application shows you. How integrate LINE Bot and Oxford Dictionary API.
+This application is a demonstration of the integrate LINE Bot and Oxford Dictionary API.
+
       ![QRCode](docs/qr-code.png "qr code chat")
 
 ### Prerequisite
