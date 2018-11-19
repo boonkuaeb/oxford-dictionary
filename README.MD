@@ -78,3 +78,5 @@ docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -
 
 ```
 
+3. Open URL [http://localhost:8080](http://localhost:8080) and check the page is showing `Whitelabel Error Page` message. That means we can run the application from docker container.
+
