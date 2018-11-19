@@ -1,7 +1,7 @@
 ## Sample Dictionary Application
 
 This application shows you. How integrate LINE Bot and Oxford Dictionary API.
-      ![Chat](docs/qr-code.png "qr code chat")
+      ![QRCode](docs/qr-code.png "qr code chat")
 
 ### Prerequisite
 
@@ -61,7 +61,7 @@ mvn clean test
 4. Test
     * Input message text : `LINE`
     * Result: 
-      ![Chat](docs/test-chat.png "Test chat")
+      ![Chat](docs/test-chat.png "Test chat"  =250x)
 
 
 ##### 5. Work with Docker file.
