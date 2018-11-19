@@ -27,15 +27,42 @@ Replace contain of `application.yml` file as a table below.
 
 | Parameter Name        | Definition|
 | ------------- |:-------------:|
-| ${DEVTOOLS_IS_DEV_MODE}      | * `true` for development env, `false` for production environment |
+| ${DEVTOOLS_IS_DEV_MODE}      |  `true` for development env, `false` for production environment |
 | ${LINE_BOT_CHANNEL_TOKEN}      | Replace this value as a `chanel-token` from the Prerequisite  step |
 | ${LINE_BOT_CHANNEL_SECRET} | Replace this value as a `chanel-secret` from the Prerequisite  step     |
 | ${OXFORD_BASE_URL} | Replace this value as a `oxford_base_url` from the Prerequisite  step     |
 | ${OXFORD_APP_ID} | Replace this value as a `app_id` from the Prerequisite  step      |
 | ${OXFORD_APP_KEY} | Replace this value as a `app_key` from the Prerequisite  step       |
 
+##### 3. Unit Test
+```bash
+mvn clean test
+```
 
-               
+##### 4. Integration Test
+1. Handle `HTTPS`
+    * Run `./ngrok http 8080`
+    * Find the `https` url that Ngrok generated. For example `https://random-url.ngrok.io`
+2. Update LINE Bot a Webhook URL
+    * Go to [https://developers.line.biz/console/](https://developers.line.biz/console/)
+    * Select the provider that registered form Prerequisite step
+    * Select Channel Tab.
+    * Update the Webhook URL with this pattern `https url` + `callback`. In this case you I use `https://random-url.ngrok.io/callback`
+   
+3. Add The line channel to your LINE application 
+    * Go to [https://developers.line.biz/console/](https://developers.line.biz/console/)
+    * Select the provider that registered form Prerequisite step
+    * Select Channel Tab.
+    * Find the QR code image
+    * Open LINE application on your mobile phone. 
+    * Add new friend via QR code.
+    * Check a Friends list on LINE application. You will see new friend name `Dictionaty BOT`
+    
+4. Test
+    * Input message text : `LINE`
+    * Result: 
+      ![Chat](docs/test-chat.png "Test chat")
+
 
 
 
