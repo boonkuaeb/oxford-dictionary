@@ -13,7 +13,7 @@ This application is a demonstration of the integrate LINE Bot and Oxford Diction
     * `oxford_base_url`. An endpoint URL to connect to the Oxford Dictionary API.
     * `app_id`. A Application Id of Oxford Dictionary account.
     * `app_key` A Application Key of Oxford Dictionary account.
-3. To integration test with LINE Bot is required HTTPS So, we use Narok is handling HTTPS on local development environment
+3. To integration test with LINE Bot is required `HTTPS` So, we use **Narok** is handling `HTTPS` on local development environment
     * Register Ngrok Account : [https://dashboard.ngrok.com/user/signup](https://dashboard.ngrok.com/user/signup)
     * Download Ngrok application: [https://ngrok.com/download](https://ngrok.com/download)
     * Ngrok Manual: [https://ngrok.com/docs](https://ngrok.com/docs)
