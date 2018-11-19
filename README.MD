@@ -61,12 +61,12 @@ mvn clean test
 4. Test
     * Input message text : `LINE`
     * Result: 
-      ![Chat](docs/test-chat.png=250x "Test chat" )
+      ![Chat](docs/test-chat.png "Test chat" )
 
 
 ##### 5. Work with Docker file.
 
-1. Crete docker image
+1. Create docker image
 ```bash
 mvn package -DskipTests=true docker:build -Ddictionary-profile=default
 ```
