@@ -66,7 +66,7 @@ mvn clean test
       ![Chat](docs/test-chat.png "Test chat" )
 
 
-##### 5. Work with Docker file.
+### Work with Docker file.
 
 1. Create docker image
 ```bash
