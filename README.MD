@@ -1,6 +1,7 @@
 ## Sample Dictionary Application
 
 This application is show you. how integrate LINE Bot and Oxford Dictionary API.
+      ![Chat](docs/qr-code.png "qr code chat")
 
 ### Prerequisite
 
@@ -39,7 +40,7 @@ Replace contain of `application.yml` file as a table below.
 mvn clean test
 ```
 
-##### 4. Integration Test
+##### 4. End to End Test
 1. Handle `HTTPS`
     * Run `./ngrok http 8080`
     * Find the `https` url that Ngrok generated. For example `https://random-url.ngrok.io`
@@ -64,16 +65,17 @@ mvn clean test
       ![Chat](docs/test-chat.png "Test chat")
 
 
+##### 5. Work with Docker file.
 
-
+1. Crete docker image
 ```
 mvn package -DskipTests=true docker:build -Dtodo-profile=default
 
 ```
 
-
+2. Run container from docker image
 ```docker
-docker run --name dictionary-default -p8080:8080  -d dictionary-img-default
+docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d dictionary-img-default
 
 ```
 
