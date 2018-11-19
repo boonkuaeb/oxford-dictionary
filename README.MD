@@ -47,7 +47,7 @@ mvn clean test
     * Go to [https://developers.line.biz/console/](https://developers.line.biz/console/)
     * Select the provider that registered form Prerequisite step
     * Select Channel Tab.
-    * Update the Webhook URL with this pattern `https url` + `/callback`. In this case you I use `https://random-url.ngrok.io/callback`
+    * Update the Webhook URL with this pattern `https url` + `/callback`. In this case, I use `https://random-url.ngrok.io/callback`
    
 3. Add The line channel to your LINE application 
     * Go to [https://developers.line.biz/console/](https://developers.line.biz/console/)
