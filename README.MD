@@ -111,8 +111,8 @@ mvn clean test
       ```
       Open [https://hub.docker.com/](https://hub.docker.com/) and find the your_docker_hub_repository_name that we just pushed.
       
-### Deploy the docker images.      
-I test deploy on my local environment. So, I will clean up all  container and  images as a few docker command below.
+### Deploy the Docker Images.      
+I test deployment application on my local environment. So, I will clean up all container and images as a few dockers command below.
 
 ```docker
 docker stop dictionary-default
@@ -127,10 +127,12 @@ docker rm dictionary-default
 docker rmi dictionary-default-img
 ```
 
-
+**Deployment step**
 1. Deploy:
-    This command is very similar to step 3. A different is the option `-d `.
-    We can use the docker repository name from docker-hub. I use the repository name that I created on `your_docker_hub_repository_name`, container name I change to `dictionary-prod` and `DEVTOOLS_IS_DEV_MODE=false`
+    This command is very similar to step 3 of `Create Docker Images` step. The different things are. 
+    * `-d ` docker image reference: I changed from local image name to docker-hub repository image name `your_docker_hub_repository_name`
+    * `--name` container name: I change to `dictionary-prod`
+    * `DEVTOOLS_IS_DEV_MODE=false` 
     
     ```docker
     docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=true -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d your_docker_hub_repository_name
