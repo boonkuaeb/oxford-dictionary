@@ -113,6 +113,7 @@ mvn clean test
         
     * Tags  the  `dictionary-default-image-id-xxx` Image Id from previous step.
         * `boonkuaeb/dictionary:latest` is Docker Hub repository name and version
+        
         Run Command:
         ```docker
           docker tag dictionary-default-image-id-xxx boonkuaeb/dictionary:latest
