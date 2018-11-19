@@ -68,7 +68,7 @@ mvn clean test
 
 1. Crete docker image
 ```bash
-mvn package -DskipTests=true docker:build -Dtodo-profile=default
+mvn package -DskipTests=true docker:build -Ddictionary-profile=default
 ```
 
 2. Run container from docker image
