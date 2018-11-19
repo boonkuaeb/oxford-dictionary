@@ -61,7 +61,7 @@ mvn clean test
 4. Test
     * Input message text : `LINE`
     * Result: 
-      ![Chat](docs/test-chat.png "Test chat"  =250x)
+      ![Chat](docs/test-chat.png=250x "Test chat" )
 
 
 ##### 5. Work with Docker file.
