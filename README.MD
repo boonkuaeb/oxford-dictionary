@@ -22,7 +22,7 @@ A step by step series of examples that tell you how to get a development env run
 git clone git@github.com:boonkuaeb/oxford-dictionary.git dictionary
 ```
 ##### 2. Edit application configuration files
-Open the `src/main/resources/application.yml` find with your favorite editor.
+Open the `src/main/resources/application.yml` with your favorite editor.
 Replace contain of `application.yml` file as a table below.
 
 | Parameter Name        | Definition|
