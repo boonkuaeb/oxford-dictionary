@@ -67,9 +67,9 @@ mvn clean test
       ![Chat](docs/test-chat.png "Test chat" )
 
 
-### Create the docker images.
+### Create Docker Images.
 
-1. Run Unit Test. Make sure all Unit Test passed properly. 
+1. Make sure all Unit Test passed properly. 
     ```$docker
         mvn clean test
     ```
@@ -109,6 +109,8 @@ mvn clean test
       ```docker
       docker push your_docker_hub_repository_name
       ```
+      Open [https://hub.docker.com/](https://hub.docker.com/) and find the your_docker_hub_repository_name that we just pushed.
+      
 ### Deploy the docker images.      
 I test deploy on my local environment. So, I will clean up all  container and  images as a few docker command below.
 
@@ -126,19 +128,22 @@ docker rmi dictionary-default-img
 ```
 
 
+1. Deploy:
+    This command is very similar to step 3. A different is the option `-d `.
+    We can use the docker repository name from docker-hub. I use the repository name that I created on `your_docker_hub_repository_name`, container name I change to `dictionary-prod` and `DEVTOOLS_IS_DEV_MODE=false`
+    
+    ```docker
+    docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=true -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d your_docker_hub_repository_name
+    ```
+2. Check docker container is running :
+    ```docker
+    docker ps
+    ```
+    Find name container as `dictionary-prod` is running.
+3. Check application is work:
 
-This command is very similar to step 3. A different is the option `-d `.
-We can use the docker repository name from docker-hub. I use the repository name that I created on `your_docker_hub_repository_name`, container name I change to `dictionary-prod` and `DEVTOOLS_IS_DEV_MODE=false`
+    Open hosts file as a command `sudo vim /etc/hosts` with `vim` command add new line `127.0.0.1 dictionary-prod` and save the file.
+    
+    Open URL `http://dictionary-prod:8080` and check the page is showing Whitelabel Error Page message. That means we can run the application from docker container.
+    
 
-```docker
-docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=true -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d your_docker_hub_repository_name
-```
-Test docker container is running :
-```docker
-docker ps
-```
-Check `dictionary-prod` name container is showing.
-
-Open th hosts file as a command `sudo vim /etc/hosts` , add new line `127.0.0.1 dictionary-prod` and save the file.
-
-Open URL `http://dictionary-prod:8080` and check the page is showing Whitelabel Error Page message. That means we can run the application from docker container.
