@@ -11,8 +11,10 @@ This application is a demonstration of the integrate LINE Bot and Oxford Diction
      * `channel-secret`. A channel secret value of LINE bot account.
 2. Oxford Dictionary Account from [https://developer.oxforddictionaries.com/sign-in](https://developer.oxforddictionaries.com/sign-in). The parameters that we need are.
     * `oxford_base_url`. An endpoint URL to connect to the Oxford Dictionary API.
-    * `app_id`. A Application Id of Oxford Dictionary account.
-    * `app_key` A Application Key of Oxford Dictionary account.
+    * `app_id`. A application id of Oxford Dictionary account.
+    * `app_key` A application Key of Oxford Dictionary account.
+    * `api_base_url`  API requests endpoint of Oxford Dictionary account.
+    
 3. To integration test with LINE Bot is required `HTTPS` So, we use **Narok** is handling `HTTPS` on local development environment
     * Register Ngrok Account : [https://dashboard.ngrok.com/user/signup](https://dashboard.ngrok.com/user/signup)
     * Download Ngrok application: [https://ngrok.com/download](https://ngrok.com/download)
@@ -32,7 +34,7 @@ Replace contain of `application.yml` file as a table below.
 | ${DEVTOOLS_IS_DEV_MODE}      |  `true` for development env, `false` for production environment |
 | ${LINE_BOT_CHANNEL_TOKEN}      | Replace this value as a `chanel-token` from the Prerequisite  step |
 | ${LINE_BOT_CHANNEL_SECRET} | Replace this value as a `chanel-secret` from the Prerequisite  step     |
-| ${OXFORD_BASE_URL} | Replace this value as a `oxford_base_url` from the Prerequisite  step     |
+| ${OXFORD_BASE_URL} | Replace this value as a `api_base_url` from the Prerequisite  step     |
 | ${OXFORD_APP_ID} | Replace this value as a `app_id` from the Prerequisite  step      |
 | ${OXFORD_APP_KEY} | Replace this value as a `app_key` from the Prerequisite  step       |
 
