@@ -86,8 +86,8 @@ public class OxfordService {
                     .map(n -> strFirstToUpper(n.getText()))
                     .collect(Collectors.joining(", "));
 
-            int lastDelimeter = synonyms.lastIndexOf(", ");
-            String newSynonyms = synonyms.substring(0, lastDelimeter) + " and " + synonyms.substring((lastDelimeter + 1));
+            int lastDelimiter = synonyms.lastIndexOf(", ");
+            String newSynonyms = synonyms.substring(0, lastDelimiter) + " and " + synonyms.substring((lastDelimiter + 1));
 
             System.out.println("newSynonyms = " + newSynonyms);
             synonymsResponse.setStatus(true);
