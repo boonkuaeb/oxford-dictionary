@@ -140,8 +140,8 @@ docker rmi dictionary-default-img
 1. Pull and deploy docker image :
 
     The deployment command is very similar to step 3 of `Create Docker Images` step. The different things are. 
-    * `-d ` is a image name : I changed to Docker Hub repository  name as a `boonkuaeb/dictionary`
-    * `--name` is a container name: I change to `dictionary-prod`
+    * `-d ` is a image name : change to Docker Hub repository  name as a `boonkuaeb/dictionary`
+    * `--name` is a container name: change to `dictionary-prod`
     * `DEVTOOLS_IS_DEV_MODE=false` 
     
     The command to deploy as a below.
