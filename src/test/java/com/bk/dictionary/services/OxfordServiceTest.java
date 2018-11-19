@@ -2,23 +2,38 @@ package com.bk.dictionary.services;
 
 import com.bk.dictionary.model.Oxford.*;
 import com.bk.dictionary.model.OxfordResponse;
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.model.PushMessage;
+import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.response.BotApiResponse;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
+import java.awt.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -26,30 +41,39 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@ActiveProfiles("test") // Like this
 public class OxfordServiceTest {
 
     @Mock
     RestTemplate restTemplate;
 
+    @Mock
+    PushMessageService pushMessageService;
+
+    @InjectMocks
     private OxfordService oxfordService;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        oxfordService = new OxfordService(restTemplate);
+        oxfordService = new OxfordService(restTemplate, pushMessageService);
+
     }
 
     @Test
     public void getMeaning_Fail_When_InputBlank() {
 
-        OxfordResponse actual = oxfordService.getMeaning("");
-        assertEquals(false, actual.getStatus());
+        try {
+            oxfordService.getMeaning("TESt", "");
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof Exception);
+
+        }
     }
 
     @Test
     public void getMeaning_Fail_When_ApiReturn404() {
         // Given
-        OxfordResponse oxfordResponseMock = new OxfordResponse(false);
 
         // When
         when(restTemplate.exchange(
@@ -61,10 +85,11 @@ public class OxfordServiceTest {
 
 
         // Then
-        OxfordResponse actual = oxfordService.getMeaning("information");
-        assertEquals(oxfordResponseMock.getStatus(), actual.getStatus());
-        assertEquals(oxfordResponseMock.getText(), actual.getText());
-
+        try {
+            oxfordService.getMeaning("userid", "line");
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof Exception);
+        }
         // Verify
         verify(restTemplate, times(1)).exchange(
                 Mockito.anyString(),
@@ -104,6 +129,8 @@ public class OxfordServiceTest {
 
         ResponseEntity<WordApiResult> myEntity = new ResponseEntity<WordApiResult>(apiResult, HttpStatus.ACCEPTED);
 
+
+
         // When
         when(restTemplate.exchange(
                 Mockito.anyString(),
@@ -112,28 +139,26 @@ public class OxfordServiceTest {
                 Mockito.<Class<WordApiResult>>any())).
                 thenReturn(myEntity);
 
+        when(pushMessageService.pushMessage(
+                Mockito.anyString(),
+                Mockito.anyString()
+        )).thenReturn("message");
 
         // Then
-        OxfordResponse actual = oxfordService.getMeaning("information");
-        assertEquals(oxfordResponseMock.getStatus(), actual.getStatus());
+        oxfordService.getMeaning("userid", "message");
 
         // Verify
-        verify(restTemplate, times(1)).exchange(
+        verify(restTemplate, times(2)).exchange(
                 Mockito.anyString(),
                 Mockito.<HttpMethod>eq(HttpMethod.GET),
                 Mockito.<HttpEntity<?>>any(),
                 Mockito.<Class<Object>>any()
         );
 
+        verify(pushMessageService,times(1)).pushMessage(anyString(),anyString());
+
     }
 
-
-    @Test
-    public void getSynonyms_Fail_When_InputBlank() {
-
-        OxfordResponse actual = oxfordService.getSynonyms("");
-        assertEquals(false, actual.getStatus());
-    }
 
 
     @Test
@@ -151,8 +176,7 @@ public class OxfordServiceTest {
 
 
         // Then
-        OxfordResponse actual = oxfordService.getSynonyms("information");
-        assertEquals(oxfordResponseMock.getStatus(), actual.getStatus());
+        oxfordService.getSynonyms("userid","line");
 
         // Verify
         verify(restTemplate, times(1)).exchange(
@@ -161,6 +185,7 @@ public class OxfordServiceTest {
                 Mockito.<HttpEntity<?>>any(),
                 Mockito.<Class<Object>>any()
         );
+
     }
 
 
@@ -220,11 +245,14 @@ public class OxfordServiceTest {
                 Mockito.<HttpEntity<?>>any(),
                 Mockito.<Class<SynonymApiResult>>any())).
                 thenReturn(myEntity);
+        when(pushMessageService.pushMessage(
+                Mockito.anyString(),
+                Mockito.anyString()
+        )).thenReturn("message");
 
 
         // Then
-        OxfordResponse actual = oxfordService.getSynonyms("line");
-        assertEquals(oxfordResponseMock.getStatus(), actual.getStatus());
+        oxfordService.getSynonyms("userid","line");
 
         // Verify
         verify(restTemplate, times(1)).exchange(
@@ -233,6 +261,9 @@ public class OxfordServiceTest {
                 Mockito.<HttpEntity<?>>any(),
                 Mockito.<Class<Object>>any()
         );
+
+        verify(pushMessageService,times(1)).pushMessage(anyString(),anyString());
+
 
     }
 

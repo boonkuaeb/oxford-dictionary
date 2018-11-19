@@ -8,19 +8,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
 public class OxfordService {
 
     private final RestTemplate restTemplate;
+    private PushMessageService pushMessageService;
+
+
     @Value("${oxford.base-url}")
     private String apiEndpoint;
     @Value("${oxford.app-id}")
@@ -29,54 +32,51 @@ public class OxfordService {
     private String appKey;
 
     @Autowired
-    public OxfordService(RestTemplate restTemplate) {
+    public OxfordService(RestTemplate restTemplate, PushMessageService pushMessageService) {
         this.restTemplate = restTemplate;
+        this.pushMessageService = pushMessageService;
     }
 
-    public OxfordResponse getMeaning(String text) {
+    @Async
+    public void getMeaning(String userId, String text) {
         OxfordResponse meaningResponse = new OxfordResponse(false);
         text = cleanUpText(text);
-        if (text.isEmpty()) {
-            return meaningResponse;
-        }
+        if (!text.isEmpty()) {
+            try {
+                String url = apiEndpoint + "/entries/en/" + text;
+                System.out.println(url);
 
-        try {
-            String url = apiEndpoint + "/entries/en/" + text;
-            System.out.println(url);
+                WordApiResult oxfordWordResult = callWordApi(url);
 
-            WordApiResult oxfordWordResult = callWordApi(url);
+                System.out.println(oxfordWordResult);
 
-            System.out.println(oxfordWordResult);
+                WordResult wordResults = oxfordWordResult.getResults().stream().findFirst().orElse(null);
+                WordLexicalEntry wordLexicalEntry = wordResults.getLexicalEntries().stream().findFirst().orElse(null);
+                WordEntry entry = wordLexicalEntry.getEntries().stream().findFirst().orElse(null);
+                WordSense sense = entry.getSenses().stream().findFirst().orElse(null);
+                String definitions = sense.getDefinitions().stream().findFirst().orElse(null);
 
-            WordResult wordResults = oxfordWordResult.getResults().stream().findFirst().orElse(null);
-            WordLexicalEntry wordLexicalEntry = wordResults.getLexicalEntries().stream().findFirst().orElse(null);
-            WordEntry entry = wordLexicalEntry.getEntries().stream().findFirst().orElse(null);
-            WordSense sense = entry.getSenses().stream().findFirst().orElse(null);
-            String definitions = sense.getDefinitions().stream().findFirst().orElse(null);
+                if (!definitions.isEmpty() || definitions != null) {
+                    meaningResponse.setStatus(true);
+                    String lexicalCategory = wordLexicalEntry.getLexicalCategory();
+                    meaningResponse.setText(strFirstToUpper(text) + " (" + lexicalCategory + " ) :\n" + strFirstToUpper(definitions) + ".");
+                }
 
-            if (!definitions.isEmpty() || definitions != null) {
-                meaningResponse.setStatus(true);
-                String lexicalCategory = wordLexicalEntry.getLexicalCategory();
-                meaningResponse.setText(strFirstToUpper(text) + " (" + lexicalCategory + " ) :\n" + strFirstToUpper(definitions) + ".");
+                pushMessageService.pushMessage(userId, meaningResponse.getText());
+                getSynonyms(userId, text);
+
+            } catch (Exception e) {
+                System.out.println("e.OxfordResponse() = " + e.getMessage());
+                meaningResponse.setText("Cannot find the meaning for this time.");
             }
-
-            return meaningResponse;
-        } catch (Exception e) {
-            System.out.println("e.OxfordResponse() = " + e.getMessage());
-            return meaningResponse;
         }
     }
 
-    public OxfordResponse getSynonyms(String text) {
+    public void getSynonyms(String userId, String text) {
         OxfordResponse synonymsResponse = new OxfordResponse(false);
-        text = cleanUpText(text);
-        if (text.isEmpty()) {
-            return new OxfordResponse(false);
-        }
-
-
         try {
             String url = apiEndpoint + "/entries/en/" + text + "/synonyms";
+            System.out.println("url = " + url);
             SynonymApiResult oxfordSynonymResult = callSynonymApi(url);
 
             SynonymResult synonymResult = oxfordSynonymResult.getResults().stream().findFirst().orElse(null);
@@ -95,15 +95,11 @@ public class OxfordService {
             System.out.println("newSynonyms = " + newSynonyms);
             synonymsResponse.setStatus(true);
             synonymsResponse.setText("Similar Words :\n" + strFirstToUpper(newSynonyms) + ".");
-
-
-            return synonymsResponse;
-
+            pushMessageService.pushMessage(userId, synonymsResponse.getText());
         } catch (Exception e) {
             e.getMessage();
             System.out.println("getSynonyms.getMessage() = " + e.getMessage());
         }
-        return synonymsResponse;
     }
 
 
@@ -129,7 +125,6 @@ public class OxfordService {
                     new HttpEntity<Object>(headers),
                     WordApiResult.class
             );
-            System.out.println("debug response = " + response);
         } catch (HttpClientErrorException e) {
             System.out.println("e.WordApiResult = " + e.getMessage());
             return null;
