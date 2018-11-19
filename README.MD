@@ -61,6 +61,7 @@ mvn clean test
 4. Test
     * Input message text : `LINE`
     * Result: 
+    
       ![Chat](docs/test-chat.png "Test chat" )
 
 
