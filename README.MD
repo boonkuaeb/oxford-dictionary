@@ -17,9 +17,9 @@ This application is a demonstration of the integrate LINE Bot and Oxford Diction
     * Register Ngrok Account : [https://dashboard.ngrok.com/user/signup](https://dashboard.ngrok.com/user/signup)
     * Download Ngrok application: [https://ngrok.com/download](https://ngrok.com/download)
     * Ngrok Manual: [https://ngrok.com/docs](https://ngrok.com/docs)
-### Installing
+### Sep up Development environment
 A step by step series of examples that tell you how to get a development env running
-##### 1. Down load the source code
+##### 1. Down load a source code
 ```git
 git clone git@github.com:boonkuaeb/oxford-dictionary.git dictionary
 ```
@@ -42,21 +42,21 @@ mvn clean test
 ```
 
 ##### 4. End to End Test
-1. Handle `HTTPS`
+1. Prepare `HTTPS`
     * Run `./ngrok http 8080`
     * Find the `https` url that Ngrok generated. For example `https://random-url.ngrok.io`
 2. Update LINE Bot a Webhook URL
     * Go to [https://developers.line.biz/console/](https://developers.line.biz/console/)
-    * Select the provider that registered form Prerequisite step
+    * Select the provider and chanel that registered form Prerequisite step
     * Select Channel Tab.
-    * Update the Webhook URL with this pattern `https url` + `/callback`. In this case, I use `https://random-url.ngrok.io/callback`
+    * Update the Webhook URL with pattern `https url` + `/callback`. In this case, I use `https://random-url.ngrok.io/callback`
    
-3. Add The line channel to your LINE application 
+3. Add The LINE channel to your LINE mobile application 
     * Go to [https://developers.line.biz/console/](https://developers.line.biz/console/)
-    * Select the provider that registered from the Prerequisite step
+    * Select the chanel that registered from the Prerequisite step
     * Select Channel Tab.
     * Find the QR code image
-    * Open LINE application on your mobile phone. 
+    * Open your LINE mobile application. 
     * Add new friend via scan QR code.
     * Check a Friends list on LINE application. You will see new friend name `Dictionaty BOT`
     
@@ -77,14 +77,21 @@ mvn clean test
     ```$docker
     mvn package -DskipTests=true docker:build -Ddictionary-profile=default
     ```
+    Check `dictionary-default-img` created.
+      ```docker
+      docker images
+      ```
+      Find docker image name as  `dictionary-default-img`
+      
 3. Run container from docker image
     ```docker
      docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d dictionary-img-default
     ```
-    The value of the parameters are dedent on your environment configuration.
-4. Test docker container is running
+    _The values of the parameters are decent on your environment configuration._
+4. Test the docker container is running
 
-    Open URL [http://localhost:8080](http://localhost:8080) and check the page is showing `Whitelabel Error Page` message. That means we can run the application from docker container.
+        Open URL [http://localhost:8080](http://localhost:8080) and check the page is showing `Whitelabel Error Page` message. That means we can run the application from docker container properly.
+
 
 5. Store docker images to the Docker repository.
     I use [https://hub.docker.com/](https://hub.docker.com/). 
@@ -97,22 +104,23 @@ mvn clean test
       ```docker
       docker images
       ```
-      Find the Image Id of `dictionary-default-img`
+      Find the Image Id of `dictionary-default-img` image.
+      For example I use `dictionary-default-image-id-xxx` as a Image Id of `dictionary-default-img`
         
-    * Tags  the Image Id of `dictionary-default-img` from previous step.
+    * Tags  the  `dictionary-default-image-id-xxx` Image Id from previous step.
         ```docker
-          docker tag dictionary-default-img_image_id your_docker_hub_repository_name:latest
+          docker tag dictionary-default-image-id-xxx boonkuaeb/dictionay:latest
        ```
-        * `dictionary-default-img_image_id` is Image Id of `dictionary-default-img`
-        * `your_docker_hub_repository_name:latest` is Docker Hub repository name
-    * Push `your_docker_hub_repository_name:latest` to Docker-Hub repository
+        * `boonkuaeb/dictionay:latest` is Docker Hub repository name and version
+        
+    * Push `boonkuaeb/dictionay:latest` image to Docker-Hub repository
       ```docker
-      docker push your_docker_hub_repository_name
+      docker push boonkuaeb/dictionay
       ```
-      Open [https://hub.docker.com/](https://hub.docker.com/) and find the your_docker_hub_repository_name that we just pushed.
+      Open [https://hub.docker.com/](https://hub.docker.com/) and find the boonkuaeb/dictionay that we just pushed.
       
 ### Deploy the Docker Images.      
-I test deployment application on my local environment. So, I will clean up all container and images as a few dockers command below.
+In this case, I plan to test deployment dictionary application on my local environment. So, I will clean up all container and images as a few dockers command below.
 
 ```docker
 docker stop dictionary-default
@@ -128,24 +136,26 @@ docker rmi dictionary-default-img
 ```
 
 **Deployment step**
-1. Deploy:
-    This command is very similar to step 3 of `Create Docker Images` step. The different things are. 
-    * `-d ` docker image reference: I changed from local image name to docker-hub repository image name `your_docker_hub_repository_name`
-    * `--name` container name: I change to `dictionary-prod`
+1. Pull and deploy docker image :
+
+    The deployment command is very similar to step 3 of `Create Docker Images` step. The different things are. 
+    * `-d ` is a image name : I changed to Docker Hub repository  name as a `boonkuaeb/dictionay`
+    * `--name` is a container name: I change to `dictionary-prod`
     * `DEVTOOLS_IS_DEV_MODE=false` 
     
     ```docker
-    docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=true -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d your_docker_hub_repository_name
+    docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=true -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d boonkuaeb/dictionay
     ```
-2. Check docker container is running :
+2. Check the container is running :
     ```docker
     docker ps
     ```
     Find name container as `dictionary-prod` is running.
+    
 3. Check application is work:
 
-    Open hosts file as a command `sudo vim /etc/hosts` with `vim` command add new line `127.0.0.1 dictionary-prod` and save the file.
+    Open hosts file as a command `sudo vim /etc/hosts` add new line `127.0.0.1 dictionary-prod` and save the file.
     
-    Open URL `http://dictionary-prod:8080` and check the page is showing Whitelabel Error Page message. That means we can run the application from docker container.
+    Open URL `http://dictionary-prod:8080` and check the page is showing Whitelabel Error Page message. That means we can run the application on docker container properly.
     
 
