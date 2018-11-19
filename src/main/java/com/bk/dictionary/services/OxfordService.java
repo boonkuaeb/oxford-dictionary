@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,6 +73,8 @@ public class OxfordService {
         if (text.isEmpty()) {
             return new OxfordResponse(false);
         }
+
+
         try {
             String url = apiEndpoint + "/entries/en/" + text + "/synonyms";
             SynonymApiResult oxfordSynonymResult = callSynonymApi(url);
@@ -111,7 +114,7 @@ public class OxfordService {
 
     private String cleanUpText(String text) {
         String[] textArray = text.trim().split(" ");
-        text = textArray[0].replaceAll("[^a-zA-Z0-9]", "");
+        text = textArray[0].replaceAll("[^a-zA-Z]", "");
         return text;
     }
 
