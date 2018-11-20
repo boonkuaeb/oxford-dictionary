@@ -33,7 +33,7 @@ Replace contain of `application.yml` file as a table below.
 | Parameter Name        | Definition|
 | ------------- |:-------------:|
 | ${DEVTOOLS_IS_DEV_MODE}      |  `true` for development env, `false` for production environment |
-| ${REDIS_ENDPOINT}      |  Replace this value with `redis_url` from the prerequisite step |
+| ${REDIS_URL}      |  Replace this value with `redis_url` from the prerequisite step |
 | ${LINE_BOT_CHANNEL_TOKEN}      | Replace this value as a `chanel-token` from the prerequisite step |
 | ${LINE_BOT_CHANNEL_SECRET} | Replace this value as a `chanel-secret` from the prerequisite step     |
 | ${OXFORD_BASE_URL} | Replace this value as a `api_base_url` from the prerequisite step     |
