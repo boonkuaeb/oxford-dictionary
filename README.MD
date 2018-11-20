@@ -14,8 +14,9 @@ This application is a demonstration of the integrate LINE Bot and Oxford Diction
     * `app_id`. A application id of Oxford Dictionary account.
     * `app_key` A application Key of Oxford Dictionary account.
     * `api_base_url`  API requests endpoint of Oxford Dictionary account.
-    
-3. To integration test with LINE Bot is required `HTTPS` So, we use **Narok** is handling `HTTPS` on local development environment
+3. Redis Cache from : [https://elements.heroku.com/addons/heroku-redis](https://elements.heroku.com/addons/heroku-redis)
+    * `redis_url` : A url endpint of Redis. I used add on service from Heroku    
+4. To integration test with LINE Bot is required `HTTPS` So, we use **Narok** is handling `HTTPS` on local development environment
     * Register Ngrok Account : [https://dashboard.ngrok.com/user/signup](https://dashboard.ngrok.com/user/signup)
     * Download Ngrok application: [https://ngrok.com/download](https://ngrok.com/download)
     * Ngrok Manual: [https://ngrok.com/docs](https://ngrok.com/docs)
@@ -32,11 +33,12 @@ Replace contain of `application.yml` file as a table below.
 | Parameter Name        | Definition|
 | ------------- |:-------------:|
 | ${DEVTOOLS_IS_DEV_MODE}      |  `true` for development env, `false` for production environment |
-| ${LINE_BOT_CHANNEL_TOKEN}      | Replace this value as a `chanel-token` from the Prerequisite  step |
-| ${LINE_BOT_CHANNEL_SECRET} | Replace this value as a `chanel-secret` from the Prerequisite  step     |
-| ${OXFORD_BASE_URL} | Replace this value as a `api_base_url` from the Prerequisite  step     |
-| ${OXFORD_APP_ID} | Replace this value as a `app_id` from the Prerequisite  step      |
-| ${OXFORD_APP_KEY} | Replace this value as a `app_key` from the Prerequisite  step       |
+| ${REDIS_ENDPOINT}      |  Replace this value with `redis_url` from the prerequisite step |
+| ${LINE_BOT_CHANNEL_TOKEN}      | Replace this value as a `chanel-token` from the prerequisite step |
+| ${LINE_BOT_CHANNEL_SECRET} | Replace this value as a `chanel-secret` from the prerequisite step     |
+| ${OXFORD_BASE_URL} | Replace this value as a `api_base_url` from the prerequisite step     |
+| ${OXFORD_APP_ID} | Replace this value as a `app_id` from the prerequisite step      |
+| ${OXFORD_APP_KEY} | Replace this value as a `app_key` from the prerequisite step       |
 
 ##### 3. Unit Test
 ```bash
@@ -89,7 +91,7 @@ mvn clean test
       
 3. Run container from docker image
     ```docker
-     docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d dictionary-img-default
+     docker run --name dictionary-default -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e REDIS_URL=your_redis_url -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d dictionary-img-default
     ```
     _The values of the parameters depend on your environment configuration._
 4. Test the docker container is running
@@ -151,7 +153,7 @@ docker rmi dictionary-default-img
     
     The command to deploy as a below.
     ```docker
-    docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d boonkuaeb/dictionary
+    docker run --name dictionary-prod -p8080:8080 -e DEVTOOLS_IS_DEV_MODE=false -e REDIS_URL=your_redis_url -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e LINE_BOT_CHANNEL_SECRET=your_line_bot_channel_secret -e LINE_BOT_CHANNEL_TOKEN=your_line_bot_channel_token -e OXFORD_BASE_URL=your_oxford_base_url -e OXFORD_APP_ID=your_oxford_app_id -e OXFORD_APP_KEY=your_oxford_app_key -d boonkuaeb/dictionary
     ```
 2. Check the container is running :
     ```docker

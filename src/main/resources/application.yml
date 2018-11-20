@@ -3,6 +3,11 @@ spring:
     restart:
       enabled: ${DEVTOOLS_IS_DEV_MODE}
       additional-paths: src
+  cache:
+    type: redis
+  redis:
+    url: ${REDIS_URL}
+
 
 line:
   bot:

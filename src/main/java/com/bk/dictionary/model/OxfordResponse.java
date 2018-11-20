@@ -7,8 +7,6 @@ public class OxfordResponse {
 
     private Boolean status;
     private String text;
+    private String cacheKey;
 
-    public OxfordResponse(Boolean status) {
-        this.status = status;
-    }
 }
