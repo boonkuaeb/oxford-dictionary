@@ -23,20 +23,15 @@ public class OxfordService {
     public void translate(String userId, String text) {
         text = cleanUpText(text);
         if (!text.isEmpty()) {
-            try {
-                OxfordResponse meaningResponse = new OxfordResponse();
-                meaningResponse.setCacheKey("m_" + text);
-                String message = cachedOxfordResponseRepositoryImp.findMeaningByCacheKey(meaningResponse, text);
 
-                pushMessageService.pushMessage(userId, message);
-                pushSynonymsMessage(userId, text);
-
-            } catch (Exception e) {
-                System.out.println("e.OxfordResponse() = " + e.getMessage());
-                OxfordResponse meaningResponse = new OxfordResponse();
-                meaningResponse.setText("Cannot find the meaning for this time.");
-                pushMessageService.pushMessage(userId, meaningResponse.getText());
+            OxfordResponse meaningResponse = new OxfordResponse();
+            meaningResponse.setCacheKey("m_" + text);
+            String message = cachedOxfordResponseRepositoryImp.findMeaningByCacheKey(meaningResponse, text);
+            if (message == null) {
+                message = "Cannot find the meaning for this time.";
             }
+            pushMessageService.pushMessage(userId, message);
+            pushSynonymsMessage(userId, text);
         }
 
     }

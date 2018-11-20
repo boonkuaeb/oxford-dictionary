@@ -49,7 +49,7 @@ public class OxfordServiceTest {
     }
 
     @Test
-    public void translate_Fail_When_ApiReturn404() {
+    public void translate_Success_When_ApiReturn404() {
         // When
         when(
                 cachedOxfordResponseRepositoryImp.findMeaningByCacheKey
@@ -57,15 +57,12 @@ public class OxfordServiceTest {
                                 Mockito.any(OxfordResponse.class),
                                 Mockito.anyString()
                         )
-        ).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND));
+        ).thenReturn(null);
 
 
         // Then
-        try {
-            oxfordService.translate("userid", "line");
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof HttpClientErrorException);
-        }
+        oxfordService.translate("userid", "line");
+
         // Verify
         verify(cachedOxfordResponseRepositoryImp, times(1)).findMeaningByCacheKey(
                 Mockito.any(OxfordResponse.class),
@@ -86,11 +83,11 @@ public class OxfordServiceTest {
         ).thenReturn("line");
 
         when(
-            cachedOxfordResponseRepositoryImp.findSynonymsByCacheKey
-                    (
-                            Mockito.any(OxfordResponse.class),
-                            Mockito.anyString()
-                    )
+                cachedOxfordResponseRepositoryImp.findSynonymsByCacheKey
+                        (
+                                Mockito.any(OxfordResponse.class),
+                                Mockito.anyString()
+                        )
         ).thenReturn("Outline, Sketch");
 
         when(
@@ -118,7 +115,6 @@ public class OxfordServiceTest {
                 Mockito.anyString()
         );
     }
-
 
 
     @Test
