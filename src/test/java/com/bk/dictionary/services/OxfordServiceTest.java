@@ -122,7 +122,7 @@ public class OxfordServiceTest {
 
 
     @Test
-    public void getSynonyms_Fail_When_ApiReturn404() {
+    public void pushSynonymsMessage_Fail_When_ApiReturn404() {
         // When
         when(
                 cachedOxfordResponseRepositoryImp.findSynonymsByCacheKey
@@ -135,7 +135,7 @@ public class OxfordServiceTest {
 
         // Then
         try {
-            oxfordService.getSynonyms("userid", "line");
+            oxfordService.pushSynonymsMessage("userid", "line");
         } catch (Exception e) {
             Assert.assertTrue(e instanceof HttpClientErrorException);
         }

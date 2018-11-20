@@ -29,7 +29,7 @@ public class OxfordService {
                 String message = cachedOxfordResponseRepositoryImp.findMeaningByCacheKey(meaningResponse, text);
 
                 pushMessageService.pushMessage(userId, message);
-                getSynonyms(userId, text);
+                pushSynonymsMessage(userId, text);
 
             } catch (Exception e) {
                 System.out.println("e.OxfordResponse() = " + e.getMessage());
@@ -41,7 +41,7 @@ public class OxfordService {
 
     }
 
-    public void getSynonyms(String userId, String text) {
+    public void pushSynonymsMessage(String userId, String text) {
         try {
 
             OxfordResponse synonymsResponse = new OxfordResponse();
@@ -54,7 +54,7 @@ public class OxfordService {
             pushMessageService.pushMessage(userId, synonymsResponse.getText());
         } catch (Exception e) {
             e.getMessage();
-            System.out.println("getSynonyms.getMessage() = " + e.getMessage());
+            System.out.println("pushSynonymsMessage.getMessage() = " + e.getMessage());
         }
     }
 
